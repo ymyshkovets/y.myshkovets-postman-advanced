@@ -6,22 +6,16 @@ There are 2 arrays: "names1" and "names2". Create a function that:
 const names1 = ['Alex', 'Dima', 'Kate', 'Galina', 'Ivan'];
 const names2 = ['Dima', 'Ivan', 'Kate'];
 
-function Names(array1 = names1, array2 = names2) {
+function uniqueNames() {
     let names = [];
-    let repeat = false;
-    array1.forEach(element => {
-        array2.forEach(element2 => {
-            if (element == element2) {
-                repeat = true;
-            }
-        });
-        if (repeat == false) 
-            names.push(element);
-        else repeat = false;
-    });
+    for (let i = 0; i < names1.length; i++) {
+        if (!names2.includes(names1[i])) {
+            names.push(names1[i]);
+        }
+    }
 
     return names;
-   
 }
 
-console.log(Names(names1, names2));
+console.log(uniqueNames());
+    

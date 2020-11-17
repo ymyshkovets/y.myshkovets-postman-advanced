@@ -13,19 +13,18 @@ const utils = {
         let string = '';
         const letters = '0123456789qwertyuiopasdfghjklzxcvbnm';
         let lettersLength = letters.length;
-        for ( var i = 0; i < length; i++ ) {
+        for ( let i = 0; i < length; i++ ) {
            string+= letters.charAt(Math.floor(Math.random() * lettersLength));
         }
         return string;
     },
+    logger: function (level, message) {
+        console.log(`[${level.toUpperCase()}]: ${message}`);
+    }
     
 }
 
 console.log(`Rundom number = ${utils.randomNumber(20)}`);
 console.log(`Rundom string = ${utils.randomString(20)}`);
 
-function logger (level, message) {
-    console.log(`[${level.toUpperCase()}]: ${message}`);
-}
-
-logger('info', 'message');
+utils.logger('info', 'message');
