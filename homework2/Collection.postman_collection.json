@@ -1,0 +1,418 @@
+{
+	"info": {
+		"_postman_id": "9118a35b-01c0-4230-9c25-ccc1a1469a3b",
+		"name": "Workshop #2 Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Task 3",
+			"item": [
+				{
+					"name": "Task 3 - Create",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "c62c4c66-a7f4-4a02-a7cb-5637db57ac70",
+								"exec": [
+									"const date = require (\"moment\");",
+									"pm.collectionVariables.set('date',date().format(''));",
+									"",
+									"var uuid = require('uuid');",
+									"pm.collectionVariables.set('uuid', uuid());",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "279a69ca-4627-4bef-aeb3-58e3da2269de",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{psw}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<project>\r\n        <default-context-id type=\"integer\" nil=\"true\"/>\r\n        <default-tags></default-tags>\r\n        <description>{{date}}</description>\r\n        <name>{{uuid}}</name>\r\n    </project>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://ws-tracks.demohoster.com/projects.xml",
+							"protocol": "https",
+							"host": [
+								"ws-tracks",
+								"demohoster",
+								"com"
+							],
+							"path": [
+								"projects.xml"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Task 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fb72ee52-57d8-404d-872d-e4f40de848fd",
+								"exec": [
+									"const jsonData = xml2Json(responseBody);",
+									"pm.globals.get(\"variable_key\");",
+									"let project = 0;",
+									"let array = [];",
+									"",
+									"jsonData.projects.project.forEach(Value => {",
+									"    if (Value.name == pm.collectionVariables.get(\"uuid\")) {",
+									"        project = 1;",
+									"        pm.collectionVariables.set(\"projectID\", Value.id._);",
+									"    } ",
+									"});",
+									"",
+									"if (project == 1) {",
+									"    pm.test('Project was created', function () {});",
+									"    ",
+									"} else {",
+									"    pm.test('Project was not be created', function () { throw new Error(); });",
+									"}",
+									"",
+									"jsonData.projects.project.forEach(Value => {",
+									"    if (Value.name.length > pm.collectionVariables.get(\"uuid\").length) {",
+									"        array.push(Value.id._);",
+									"    } ",
+									"});",
+									"console.log(array);",
+									"",
+									"array.forEach(index => {",
+									"     const request = {",
+									"  url: `https://ws-tracks.demohoster.com/projects/${index}.xml`,",
+									"  method: 'DELETE'",
+									"};",
+									"",
+									"pm.sendRequest(request, function (err, res) {});",
+									"});",
+									"",
+									"pm.sendRequest({",
+									"  url: `https://ws-tracks.demohoster.com/projects/${pm.collectionVariables.get(\"projectID\")}.xml`,",
+									"  method: 'DELETE'",
+									"}, function (err, res) {",
+									"    console.log(res.status);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{psw}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "https://ws-tracks.demohoster.com/projects.xml",
+							"protocol": "https",
+							"host": [
+								"ws-tracks",
+								"demohoster",
+								"com"
+							],
+							"path": [
+								"projects.xml"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "{{pwd}}",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "{{login}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "61ac10e1-b356-4dde-9532-dc5a3eb5dd44",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "90012246-006d-4c6e-9220-4137a69736c8",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Tasks 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "23b7f737-115e-401c-8a05-660643b8db2c",
+						"exec": [
+							"const names1 = [\"Alex\", \"Dima\", \"Kate\", \"Galina\", \"Ivan\"];",
+							"const names2 = [\"Dima\", \"Ivan\", \"Kate\"];",
+							"",
+							"console.log(_.difference(names1, names2));",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://jira.a1qa.com/rest/api/2/search",
+					"protocol": "https",
+					"host": [
+						"jira",
+						"a1qa",
+						"com"
+					],
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Tasks 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d8b09ef3-4f9b-4d1c-b655-e45556bd7c55",
+						"exec": [
+							"const ajv = require('ajv');",
+							"const jsonBody = pm.response.json();",
+							"const ajvInstance = new ajv({logger: console});",
+							"",
+							"const schema = {",
+							"    \"type\": \"object\",",
+							"    \"required\": [",
+							"        \"startAt\",",
+							"        \"maxResults\",",
+							"        \"total\",",
+							"        \"issues\"",
+							"    ],",
+							"    \"properties\": {",
+							"        \"startAt\": {",
+							"            \"type\": \"integer\"",
+							"        },",
+							"        \"maxResults\": {",
+							"            \"type\": \"integer\"",
+							"        },",
+							"        \"total\": {",
+							"            \"type\": \"integer\"",
+							"        },",
+							"        \"issues\": {",
+							"            \"type\": \"array\"",
+							"        }",
+							"    }",
+							"};",
+							"",
+							"",
+							"pm.test('Schema is valid', () => {",
+							"  pm.expect(ajvInstance.validate(schema, jsonBody)).to.be.true;",
+							"});",
+							"",
+							"console.log(`Errors - ${ajvInstance.errors}`);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://jira.a1qa.com/rest/api/2/search",
+					"protocol": "https",
+					"host": [
+						"jira",
+						"a1qa",
+						"com"
+					],
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"search"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "ab4f3701-b441-46f2-a15f-b3d39b25a595",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "ea0100aa-a440-4842-90a8-429f0787208f",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "65596110-9cc6-422a-afc8-7883f46038ca",
+			"key": "psw",
+			"value": "vwbqcn"
+		},
+		{
+			"id": "6975e408-0190-495d-9d52-ae5c4f2897e4",
+			"key": "user",
+			"value": "studentws20"
+		},
+		{
+			"id": "2db225ae-6aa5-4c8a-9d0d-c75376661b9b",
+			"key": "date",
+			"value": "2020-11-23T17:39:18+03:00"
+		},
+		{
+			"id": "fbf9a5e2-e8d4-49cf-9b02-d18aa8d8c39d",
+			"key": "uuid",
+			"value": "697cd574-c597-4659-9458-516e79afb3f2"
+		},
+		{
+			"id": "9bbc0e83-519c-4b61-b08c-75b4d67fff7d",
+			"key": "projectID",
+			"value": "27150"
+		},
+		{
+			"id": "553c7855-6b0a-46a9-a569-d2ac5e5802ec",
+			"key": "url",
+			"value": "https://ws-tracks.demohoster.com"
+		},
+		{
+			"id": "10245d6f-0774-4937-82c9-c9553af8c014",
+			"key": "host",
+			"value": "https://ws-tracks.demohoster.com"
+		},
+		{
+			"id": "b5c631dc-618b-4fc4-8a37-d359f25bb53b",
+			"key": "moment",
+			"value": "2020-11-23T17:35:23+03:00"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
