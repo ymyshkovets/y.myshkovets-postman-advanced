@@ -274,47 +274,47 @@
 	],
 	"variable": [
 		{
-			"id": "7983c954-0d28-4082-8df3-e3919a635400",
+			"id": "0e90a42e-f034-41b2-8681-4d3006dafc65",
 			"key": "TRprojectID",
 			"value": "140"
 		},
 		{
-			"id": "ae034849-3b96-4a5a-a60c-a26a8da1b0d4",
+			"id": "ff812b7b-2419-40a7-908f-8105c36b1405",
 			"key": "SuiteID",
-			"value": 18434
+			"value": 18383
 		},
 		{
-			"id": "f87746b5-9f70-444e-a0b6-c631bd6f2683",
+			"id": "304cf87b-f7c8-442b-99b1-1a8c82d2b0ad",
 			"key": "login",
 			"value": "y.myshkovets"
 		},
 		{
-			"id": "89b68c24-cab0-488f-a01b-8fa6d07b52b1",
+			"id": "d77f2659-353a-4ac3-a6e4-9fe451d57d30",
 			"key": "password",
 			"value": "698M1164m11"
 		},
 		{
-			"id": "25c7deec-59df-45ed-b2d8-cd4cfe2ee482",
+			"id": "cad3b767-406d-42d3-87a1-5734c77f7e27",
 			"key": "SectionID",
-			"value": 1796452
+			"value": 1796454
 		},
 		{
-			"id": "f3125e1d-8b89-47cb-bc8a-336b1b915b46",
+			"id": "c47d0425-01c8-476d-8aa3-2c0d3eb7a6dc",
 			"key": "URL",
 			"value": "https://tr.a1qa.com/index.php"
 		},
 		{
-			"id": "82991483-6827-4b8e-a262-a427aa73deb0",
+			"id": "a7efb1a5-3022-4105-96a4-aa05c816b156",
 			"key": "jql",
 			"value": "project%20%3D%20A1QASEWS%20AND%20text%20~%20\"Postman%20Course%20LVL2\""
 		},
 		{
-			"id": "4d1568d9-ca43-4629-bba8-55c36ed4d141",
+			"id": "839a7a35-cb78-4374-8c6b-8b19654d5ca2",
 			"key": "JiraProjectName",
 			"value": "A1QASEWS"
 		},
 		{
-			"id": "76160c28-af7d-4986-a569-7523f851ff35",
+			"id": "9824d458-0d3e-4b22-8093-e8c9c754b4d4",
 			"key": "Myname",
 			"value": "y.myshkovets"
 		}
