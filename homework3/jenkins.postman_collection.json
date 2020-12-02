@@ -14,7 +14,7 @@
 						"id": "ac60e5b8-94e9-4eda-9ec0-0b80b60893b3",
 						"exec": [
 							"const Body = pm.response.json();\r",
-							"const suiteName = `${pm.collectionVariables.get(\"Myname\")} - ${pm.collectionVariables.get(\"JiraProjectName\")}`;\r",
+							"const suiteName = `${pm.collectionVariables.get(\"name\")} - ${pm.collectionVariables.get(\"JiraProjectName\")}`;\r",
 							"\r",
 							"const TempItem = _.find(Body, function (item) {\r",
 							"    return item.name === suiteName;\r",
@@ -54,7 +54,13 @@
 			},
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "",
@@ -147,30 +153,10 @@
 						"id": "a9d4e8c2-22b3-441e-b430-d3117d2da641",
 						"exec": [
 							"const date = require (\"moment\");\r",
+							"const array = [];\r",
 							"\r",
-							"const Body = pm.response.json();\r",
-							"const CaseArray = [];\r",
-							"\r",
-							"pm.collectionVariables.set(\"JiraProjectName\", Body.issues[0].fields.project.key);\r",
-							"\r",
-							"//ищем повторяющиеся кейсы\r",
-							"const TempTRResponceBody = [];\r",
-							"const GetTRIssuesRequest = {\r",
-							"    url: `{{url}}?/api/v2/get_cases/${pm.collectionVariables.get(\"TRprojectID\")}&suite_id=${pm.collectionVariables.get(\"SuiteID\")}`,\r",
-							"    method: 'GET',\r",
-							"    header: {\r",
-							"        'Content-Type': 'application/json',\r",
-							"        'Authorization': request.headers.authorization\r",
-							"          },\r",
-							"};\r",
-							"pm.sendRequest(GetTRIssuesRequest, function (err, res) {\r",
-							"    console.log(err ? err : \"Get TestRail issues - OK\");\r",
-							"    res.json().forEach(index => TempTRResponceBody.push(index.title));\r",
-							"});\r",
-							"\r",
-							"//добавляем все кейсы из Jira в TestRail. Задерзка для того, чтобы запрос выше успел пройти и занести свой ответ в TempTRResponceBody переменную\r",
 							"setTimeout(() => {\r",
-							"CaseArray.forEach(TestCase => {\r",
+							"array.forEach(TestCase => {\r",
 							"    if (_.includes(TempTRResponceBody, TestCase.title) === true) {console.log(`${TestCase.title} case is already exist`)} else {\r",
 							"        pm.sendRequest({\r",
 							"            url: `{{url}}?/api/v2/add_case/${pm.collectionVariables.get(\"SectionID\")}`,\r",
@@ -274,48 +260,48 @@
 	],
 	"variable": [
 		{
-			"id": "0e90a42e-f034-41b2-8681-4d3006dafc65",
+			"id": "93416b24-7a29-43bb-b104-d07941940239",
 			"key": "TRprojectID",
 			"value": "140"
 		},
 		{
-			"id": "ff812b7b-2419-40a7-908f-8105c36b1405",
+			"id": "2fdcc5ea-0068-4404-b57f-0a53a66ec7e8",
 			"key": "SuiteID",
 			"value": 18383
 		},
 		{
-			"id": "304cf87b-f7c8-442b-99b1-1a8c82d2b0ad",
+			"id": "397bb73b-8685-43b1-b044-0c8ad6924f46",
 			"key": "login",
 			"value": "y.myshkovets"
 		},
 		{
-			"id": "d77f2659-353a-4ac3-a6e4-9fe451d57d30",
+			"id": "1df61a0d-ef89-4252-bedf-6e73f7fa1d25",
 			"key": "password",
 			"value": "698M1164m11"
 		},
 		{
-			"id": "cad3b767-406d-42d3-87a1-5734c77f7e27",
+			"id": "7d9fb631-56a6-4fea-8f83-e5e2da40b443",
 			"key": "SectionID",
-			"value": 1796454
+			"value": 1796918
 		},
 		{
-			"id": "c47d0425-01c8-476d-8aa3-2c0d3eb7a6dc",
+			"id": "72f7eaa6-03d6-40ca-b057-1932412a0511",
 			"key": "URL",
 			"value": "https://tr.a1qa.com/index.php"
 		},
 		{
-			"id": "a7efb1a5-3022-4105-96a4-aa05c816b156",
+			"id": "505b75cd-c91f-48f6-ae33-705c16a3ff47",
 			"key": "jql",
 			"value": "project%20%3D%20A1QASEWS%20AND%20text%20~%20\"Postman%20Course%20LVL2\""
 		},
 		{
-			"id": "839a7a35-cb78-4374-8c6b-8b19654d5ca2",
+			"id": "a6bb7a86-0c33-44d3-9800-535ed90089ef",
 			"key": "JiraProjectName",
 			"value": "A1QASEWS"
 		},
 		{
-			"id": "9824d458-0d3e-4b22-8093-e8c9c754b4d4",
-			"key": "Myname",
+			"id": "049160ab-4cfe-4ca9-8a54-0b6f7c0c9300",
+			"key": "name",
 			"value": "y.myshkovets"
 		}
 	],
