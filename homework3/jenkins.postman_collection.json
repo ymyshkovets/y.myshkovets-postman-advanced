@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "0b473de0-25ee-4703-8aa1-2d8703e691b8",
+		"_postman_id": "bf4c07ae-39a5-45cb-8ab3-45fc87507246",
 		"name": "jenkins",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -11,7 +11,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "ac60e5b8-94e9-4eda-9ec0-0b80b60893b3",
+						"id": "7edad2c6-18fb-4e98-be5b-72cf525c1ca5",
 						"exec": [
 							"const Body = pm.response.json();\r",
 							"const suiteName = `${pm.collectionVariables.get(\"name\")} - ${pm.collectionVariables.get(\"JiraProjectName\")}`;\r",
@@ -97,7 +97,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "9b1db7c3-8973-4d43-923b-d12a4e778b89",
+						"id": "eb729513-595c-4728-bac1-893e84d7dd9d",
 						"exec": [
 							"pm.test(\"Test suite is created\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
@@ -150,7 +150,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "a9d4e8c2-22b3-441e-b430-d3117d2da641",
+						"id": "159c4014-d125-484d-9460-07b935e8e969",
 						"exec": [
 							"const date = require (\"moment\");\r",
 							"const array = [];\r",
@@ -240,7 +240,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "7034c937-6069-48e5-bdfd-d9a2833c4693",
+				"id": "4f1d384d-9711-44cd-8200-bb4aecf46576",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -250,7 +250,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "9e679ffe-10cf-40d6-b563-b977f2624833",
+				"id": "a2d49811-54de-4d9a-88ad-ed1b7999d91f",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -260,47 +260,47 @@
 	],
 	"variable": [
 		{
-			"id": "93416b24-7a29-43bb-b104-d07941940239",
+			"id": "462b5f49-74f0-4257-bd52-12f2939d09cd",
 			"key": "TRprojectID",
 			"value": "140"
 		},
 		{
-			"id": "2fdcc5ea-0068-4404-b57f-0a53a66ec7e8",
+			"id": "97d237f1-9d08-4f23-9eac-7393d25602e7",
 			"key": "SuiteID",
 			"value": 18383
 		},
 		{
-			"id": "397bb73b-8685-43b1-b044-0c8ad6924f46",
+			"id": "59aaa373-5dbd-4b18-abf0-911f90ae9fbb",
 			"key": "login",
-			"value": "y.myshkovets"
+			"value": ""
 		},
 		{
-			"id": "1df61a0d-ef89-4252-bedf-6e73f7fa1d25",
+			"id": "809043bf-aad5-4332-b107-b55497448cf3",
 			"key": "password",
-			"value": "698M1164m11"
+			"value": ""
 		},
 		{
-			"id": "7d9fb631-56a6-4fea-8f83-e5e2da40b443",
+			"id": "63497593-a5c4-4d72-9d22-c994c2c71428",
 			"key": "SectionID",
-			"value": 1796918
+			"value": 1796921
 		},
 		{
-			"id": "72f7eaa6-03d6-40ca-b057-1932412a0511",
+			"id": "39ebf92d-65fe-4436-8c1c-0d0d46d5f47e",
 			"key": "URL",
 			"value": "https://tr.a1qa.com/index.php"
 		},
 		{
-			"id": "505b75cd-c91f-48f6-ae33-705c16a3ff47",
+			"id": "430f178e-484f-449f-9473-97386526ad57",
 			"key": "jql",
 			"value": "project%20%3D%20A1QASEWS%20AND%20text%20~%20\"Postman%20Course%20LVL2\""
 		},
 		{
-			"id": "a6bb7a86-0c33-44d3-9800-535ed90089ef",
+			"id": "02ae0d4b-bc62-4a21-aeca-606dfd225743",
 			"key": "JiraProjectName",
 			"value": "A1QASEWS"
 		},
 		{
-			"id": "049160ab-4cfe-4ca9-8a54-0b6f7c0c9300",
+			"id": "8dd6eaf6-f5b5-4dbe-94bb-6ab3fcda8c6d",
 			"key": "name",
 			"value": "y.myshkovets"
 		}
