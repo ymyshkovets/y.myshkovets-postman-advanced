@@ -1,0 +1,335 @@
+{
+	"info": {
+		"_postman_id": "bf4c07ae-39a5-45cb-8ab3-45fc87507246",
+		"name": "jenkins",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get suite",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7edad2c6-18fb-4e98-be5b-72cf525c1ca5",
+						"exec": [
+							"const body = pm.response.json();\r",
+							"const suiteName = `${pm.collectionVariables.get(\"name\")} - ${pm.collectionVariables.get(\"JiraProjectName\")}`;\r",
+							"const TempItem = _.find(body, item => item.name === suiteName);\r",
+							"\r",
+							"if (TempItem === undefined) {\r",
+							"    const Request = {url: `https://tr.a1qa.com/index.php?/api/v2/add_suite/${pm.collectionVariables.get(\"TRprojectID\")}`,\r",
+							"    method: 'POST',\r",
+							"    header: {\r",
+							"        'Content-Type': 'application/json',\r",
+							"        'Authorization': request.headers.authorization\r",
+							"          },\r",
+							"    body: {\r",
+							"        mode: 'raw',\r",
+							"        raw: JSON.stringify({\t\r",
+							"            \"name\": suiteName,\r",
+							"        \t\"description\": \"Test\"\r",
+							"        })\r",
+							"    }};\r",
+							"    \r",
+							"    pm.sendRequest(Request, function (err, res) {\r",
+							"        console.log(err ? err : res.json());\r",
+							"        pm.collectionVariables.set(\"SuiteID\", res.json().id);\r",
+							"        console.log(\"Suite was created\");\r",
+							"    });\r",
+							"} else {\r",
+							"    pm.collectionVariables.set(\"SuiteID\", TempItem.id);\r",
+							"    console.log(\"Suite is already exist\");\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://tr.a1qa.com/index.php?/api/v2/get_suites/{{TRprojectID}}",
+					"protocol": "https",
+					"host": [
+						"tr",
+						"a1qa",
+						"com"
+					],
+					"path": [
+						"index.php"
+					],
+					"query": [
+						{
+							"key": "/api/v2/get_suites/{{TRprojectID}}",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "section",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "eb729513-595c-4728-bac1-893e84d7dd9d",
+						"exec": [
+							"pm.test(\"Test suite is created\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const Body = pm.response.json();\r",
+							"\r",
+							"pm.collectionVariables.set(\"SectionID\", Body.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"suite_id\": {{SuiteID}},\r\n\t\"name\": \"Postman_Advanced\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://tr.a1qa.com/index.php?/api/v2/add_section/{{TRprojectID}}",
+					"protocol": "https",
+					"host": [
+						"tr",
+						"a1qa",
+						"com"
+					],
+					"path": [
+						"index.php"
+					],
+					"query": [
+						{
+							"key": "/api/v2/add_section/{{TRprojectID}}",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get from JIRA",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f80dcf5-f191-46e5-a4b9-20f18ccfef9c",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "4d3e91c0-1117-43f3-98d3-5e9b51215912",
+						"exec": [
+							"const date = require (\"moment\");\r",
+							"const body = pm.response.json();\r",
+							"const CaseArray = [];\r",
+							"const TempTRResponceBody = [];\r",
+							"pm.collectionVariables.set(\"JiraProjectName\", body.issues[0].fields.project.key);\r",
+							"\r",
+							"const GetTRCases = {\r",
+							"    url: `https://tr.a1qa.com/index.php?/api/v2/get_cases/${pm.collectionVariables.get(\"TRprojectID\")}&suite_id=${pm.collectionVariables.get(\"SuiteID\")}`,\r",
+							"    method: 'GET',\r",
+							"    header: {\r",
+							"        'Content-Type': 'application/json',\r",
+							"        'Authorization': request.headers.authorization\r",
+							"          },\r",
+							"};\r",
+							"pm.sendRequest(GetTRCases, function (err, res) {\r",
+							"    console.log(err ? err : \"Get TestRail issues - OK\");\r",
+							"    res.json().forEach(index => TempTRResponceBody.push(index.title));\r",
+							"});\r",
+							"\r",
+							"CaseArray.forEach(TestCase => {\r",
+							"    if (_.includes(TempTRResponceBody, TestCase.title) === true) {console.log(`${TestCase.title} case is already exist`)} else {\r",
+							"        pm.sendRequest({\r",
+							"            url: `{https://tr.a1qa.com/index.php}?/api/v2/add_case/${pm.collectionVariables.get(\"SectionID\")}`,\r",
+							"            method: 'POST',\r",
+							"            header: {\r",
+							"                'Content-Type': 'application/json',\r",
+							"                'Authorization': request.headers.authorization\r",
+							"            },\r",
+							"            body: {\r",
+							"            mode: 'raw',\r",
+							"            raw: JSON.stringify(TestCase)\r",
+							"            }\r",
+							"        }, function (err, res) {\r",
+							"            console.log(err ? err : res.json());\r",
+							"        });\r",
+							"    }\r",
+							";}, 1000);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "JSESSIONID=FD10C41E6A842880C241AE1861A5216B;",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://jira.a1qa.com/rest/api/latest/search?jql={{jql}}",
+					"protocol": "https",
+					"host": [
+						"jira",
+						"a1qa",
+						"com"
+					],
+					"path": [
+						"rest",
+						"api",
+						"latest",
+						"search"
+					],
+					"query": [
+						{
+							"key": "jql",
+							"value": "{{jql}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{password}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{login}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "4f1d384d-9711-44cd-8200-bb4aecf46576",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "a2d49811-54de-4d9a-88ad-ed1b7999d91f",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "e5a2c693-d0a0-4f68-956b-117818225f09",
+			"key": "TRprojectID",
+			"value": "140"
+		},
+		{
+			"id": "a045d783-78ac-40f3-b631-221cbbdbe4a8",
+			"key": "SuiteID",
+			"value": 18383
+		},
+		{
+			"id": "2e5f03c7-1ab5-4484-a4a6-9fc94aea7e3e",
+			"key": "login",
+			"value": ""
+		},
+		{
+			"id": "f5718ee3-26d6-4aab-b4bd-e04cbd95dd58",
+			"key": "password",
+			"value": ""
+		},
+		{
+			"id": "2cdb9911-5ff4-40ad-b8c4-ccd5c8f7d8ad",
+			"key": "SectionID",
+			"value": 1805791
+		},
+		{
+			"id": "8460d5e4-4ea8-403f-bab5-9ac424197723",
+			"key": "URL",
+			"value": "https://tr.a1qa.com/index.php"
+		},
+		{
+			"id": "ba5f6e02-3579-4a73-9d70-9dee6deede8c",
+			"key": "jql",
+			"value": "project%20%3D%20A1QASEWS%20AND%20text%20~%20\"Postman%20Course%20LVL2\""
+		},
+		{
+			"id": "39fc76fd-5c34-4e85-b4ea-9f44d4edfdc4",
+			"key": "JiraProjectName",
+			"value": "A1QASEWS"
+		},
+		{
+			"id": "f5315011-7cbe-4fa2-81c5-f8bdbe94229d",
+			"key": "name",
+			"value": "y.myshkovets"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
